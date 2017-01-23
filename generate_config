@@ -1,5 +1,7 @@
 #!/bin/bash
 
+CHROME_VERSION=$( sudo dpkg -s google-chrome-stable | grep Version | cut -d " " -f 2 | cut -d "-" -f 1 )
+
 echo "
 {
   \"host\": null,
@@ -15,6 +17,18 @@ echo "
   \"browserTimeout\": $GRID_BROWSER_TIMEOUT,
   \"maxSession\": $GRID_MAX_SESSION,
   \"unregisterIfStillDownAfter\": $GRID_UNREGISTER_IF_STILL_DOWN_AFTER
+  \"capabilities\": [
+    {
+      \"version\": \"$CHROME_VERSION\",
+      \"browserName\": \"chrome\",
+      \"maxInstances\": $NODE_MAX_INSTANCES,
+      \"seleniumProtocol\": \"WebDriver\"
+    }
+  ],
+  \"proxy\": \"org.openqa.grid.selenium.proxy.DefaultRemoteProxy\",
+  \"maxSession\": $NODE_MAX_SESSION,
+  \"port\": $NODE_PORT,
+  \"register\": true,
+  \"registerCycle\": $NODE_REGISTER_CYCLE
 }" 
-
 
